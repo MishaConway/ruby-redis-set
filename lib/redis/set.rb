@@ -1,6 +1,6 @@
 require "redis"
 
-module Redis
+class Redis
   class Set
     attr_reader :name
 
@@ -33,7 +33,7 @@ module Redis
     end
 
     def remove value
-      @redis.srem value
+      @redis.srem name, value
     end
 
     def remove_multi *values
@@ -44,11 +44,11 @@ module Redis
     end
 
     def include? value
-      1 == @redis.sismember(value)
+      @redis.sismember(name, value)
     end
 
     def size
-      @redis.card name
+      @redis.scard name
     end
 
     def all
