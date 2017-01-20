@@ -2,8 +2,6 @@
 
 A unique set of unordered items. Lightweight wrapper over redis sets with some additional enumeration and atomic operations.
 
-TODO: Delete this and the text above, and describe your gem
-
 ## Installation
 
 Add this line to your application's Gemfile:
