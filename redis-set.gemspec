@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'redis/set'
+require 'redis_set'
 
 Gem::Specification.new do |spec|
   spec.name          = "redis-set"
-  spec.version       = Redis::Set::VERSION
+  spec.version       = RedisSet::VERSION
   spec.authors       = ["Misha Conway"]
   spec.email         = ["mishaAconway@gmail.com"]
 
