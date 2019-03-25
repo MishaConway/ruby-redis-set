@@ -4,7 +4,7 @@ class RedisSet
 	attr_reader :name
 
 	VERSION = "0.0.5"
-_
+
 	class InvalidNameException < StandardError; end;
 	class InvalidRedisConfigException < StandardError; end;
 
