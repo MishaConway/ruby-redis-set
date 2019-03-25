@@ -3,7 +3,7 @@ require "redis"
 class RedisSet
 	attr_reader :name
 
-	VERSION = "0.0.5"
+	VERSION = "0.0.6"
 
 	class InvalidNameException < StandardError; end;
 	class InvalidRedisConfigException < StandardError; end;
@@ -70,15 +70,18 @@ class RedisSet
 
 	def intersection *sets
 		sets = [sets].flatten
-		sets = sets.map do |s|
-			if s.kind_of?(self.class)
-				s.name
-			else
-				s
+		if sets.size >= 1
+			sets = sets.map do |s|
+				if s.kind_of?(self.class)
+					s.name
+				else
+					s
+				end
 			end
-		end
+			sets << name
 
-		with{|redis| redis.sinter *sets }
+			with{|redis| redis.sinter *sets }
+		end
 	end
 
 	def scan cursor = 0, amount = 10, match = "*"
