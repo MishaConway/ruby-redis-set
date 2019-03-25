@@ -3,8 +3,8 @@ require "redis"
 class RedisSet
 	attr_reader :name
 
-	VERSION = "0.0.4"
-
+	VERSION = "0.0.5"
+_
 	class InvalidNameException < StandardError; end;
 	class InvalidRedisConfigException < StandardError; end;
 
@@ -28,7 +28,7 @@ class RedisSet
 		         end
 
 		if more_options.kind_of?(Hash) && more_options[:expire]
-			@redis.expire more_options[:expire]
+			expire more_options[:expire]
 		end
 	end
 
