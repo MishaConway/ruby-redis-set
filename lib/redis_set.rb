@@ -28,22 +28,12 @@ class RedisSet
 		         end
 	end
 
-
-
-	def add value
-		with{|redis| redis.sadd name, value}
+	def add *values
+		values = [values].flatten
+		with{|redis| redis.sadd name, values} if values.size > 0
 	end
 
 	alias push add
-
-	def add_multi *values
-		if values.size > 0
-			values = values.first if 1 == values.size && values.first.kind_of?(Array)
-			with{|redis| redis.sadd name, values}
-		end
-	end
-
-	alias push_multi add_multi
 
 	def add_with_count value
 		block_on_atomic_attempt { attempt_atomic_add_read_count value }
@@ -51,23 +41,13 @@ class RedisSet
 
 	alias push_with_count add_with_count
 
-	def remove value
-		with{|redis|redis.srem name, value}
+	def remove *values
+		values = [values].flatten
+		with{|redis|redis.srem name, values} if values.size > 0
 	end
 
-	def remove_multi *values
-		if values.size > 0
-			values = values.first if 1 == values.size && values.first.kind_of?(Array)
-			with{|redis|redis.srem name, values}
-		end
-	end
-
-	def pop
-		with{|redis| redis.pop name, 1}
-	end
-
-	def pop_multi amount
-		with{|redis| redis.pop name, amount}
+	def pop(amount = 1)
+		with{|redis| redis.spop name, amount}
 	end
 
 	def include? value
@@ -82,6 +62,19 @@ class RedisSet
 
 	def all
 		with{|redis| redis.smembers name}
+	end
+
+	def intersection *sets
+		sets = [sets].flatten
+		sets = sets.map do |s|
+			if s.kind_of?(self.class)
+				s.name
+			else
+				s
+			end
+		end
+
+		with{|redis| redis.sinter *sets }
 	end
 
 	def scan cursor = 0, amount = 10, match = "*"

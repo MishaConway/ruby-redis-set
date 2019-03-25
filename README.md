@@ -46,11 +46,11 @@ s.add "world"
 s.add "hello" # the item 'hello' will only exist once in the set since it is unique
 ```
 
-You can insert multiple items set using the add_multi or push_multi methods
+You can add multiple items
 
 ```ruby
-s.add_multi ["one","two","three"]
-s.add_multi "four","five","six"
+s.add ["one","two","three"]
+s.add "four","five","six"
 # set should have items "one","two","three","four","five","six" now
 ```
 
@@ -66,7 +66,7 @@ result = s.pop
 
 You can pop multiple random items from the set
 ```ruby
-result = s.pop_multi 5 # pop 5 random items from set and return them
+result = s.pop 5 # pop 5 random items from set and return them
 ```
 
 You can remove a specific item from the set
@@ -77,7 +77,7 @@ s.remove 5  #remove the item 5 from the set if it exists
 You can atomically remove multiple items from the set.
 
 ```ruby
-s.remove_multi 3,4,5  #removes items 3,4, and 5 from the set if they exist
+s.remove 3,4,5  #removes items 3,4, and 5 from the set if they exist
 ```
 
 You can get the size of the set.
@@ -101,6 +101,22 @@ s.all
 The set can be cleared of all items
 ```ruby
 s.clear
+```
+
+You can get the intersection between the set and another set
+```ruby
+a = RedisSet.new 'a'
+a.push 'a', 'b', 'c', 'd'
+
+b = RedisSet.new 'b'
+b.push 'c', 'd', 'e', 'f'
+
+c = RedisSet.new 'c'
+c.push 'c', 'd', 'f'
+
+# should return ['c', 'd']
+a.intersection b, c
+
 ```
 
 The set can also be set to expire (in seconds).
