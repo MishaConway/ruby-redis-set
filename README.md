@@ -21,19 +21,19 @@ Or install it yourself as:
 ## Getting started
 
 ```ruby
-s = Redis::Set.new 'completed_customer_ids'
+s = RedisSet.new 'completed_customer_ids'
 ```
 
 Or you can pass in your own instance of the Redis class.
 
 ```ruby
-s = Redis::Set.new 'completed_customer_ids', Redis.new(:host => "10.0.1.1", :port => 6380, :db => 15)
+s = RedisSet.new 'completed_customer_ids', Redis.new(:host => "10.0.1.1", :port => 6380, :db => 15)
 ```
 
 A third option is to instead pass your Redis configurations.
 
 ```ruby
-s = Redis::Set.new 'completed_customer_ids', :host => "10.0.1.1", :port => 6380, :db => 15
+s = RedisSet.new 'completed_customer_ids', :host => "10.0.1.1", :port => 6380, :db => 15
 ```
 
 ## Using the set
