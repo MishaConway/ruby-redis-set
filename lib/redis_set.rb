@@ -3,12 +3,12 @@ require "redis"
 class RedisSet
 	attr_reader :name
 
-	VERSION = "0.0.3"
+	VERSION = "0.0.4"
 
 	class InvalidNameException < StandardError; end;
 	class InvalidRedisConfigException < StandardError; end;
 
-	def initialize(name, redis_or_options = {})
+	def initialize(name, redis_or_options = {}, more_options = {})
 		name = name.to_s if name.kind_of? Symbol
 
 		raise InvalidNameException.new unless name.kind_of?(String) && name.size > 0
@@ -26,6 +26,10 @@ class RedisSet
 			       else
 				       raise InvalidRedisConfigException.new
 		         end
+
+		if more_options.kind_of?(Hash) && more_options[:expire]
+			@redis.expire more_options[:expire]
+		end
 	end
 
 	def add *values
@@ -102,7 +106,7 @@ class RedisSet
 	alias flush clear
 
 	def expire seconds
-		with{|redis| redis.expire name, seconds}
+		with{|redis| redis.expire name, seconds.to_i}
 	end
 
 	private
